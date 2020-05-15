@@ -421,8 +421,16 @@ function isBracketsBalanced(str) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  const abc = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  let s = '';
+  const mas = abc.slice(0, n);
+  let temp = num;
+  while (temp > 0) {
+    s = String(s) + mas[temp % n];
+    temp = Math.floor(temp / n);
+  }
+  return s.split('').reverse().join('');
 }
 
 
@@ -438,8 +446,17 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const resReduce = pathes.reduce((x, y) => {
+    const z = [];
+    for (let i = 0; i < x.length; i += 1) {
+      if (x[i] === y[i]) {
+        z[i] = x[i];
+      } else break;
+    }
+    return z.join('');
+  });
+  return resReduce.slice(0, resReduce.lastIndexOf('/') + 1);
 }
 
 
@@ -461,8 +478,29 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const m2New = [];
+  for (let i = 0; i < m2[0].length; i += 1) {
+    const temp = [];
+    for (let x = 0; x < m2.length; x += 1) {
+      temp.push(m2[x][i]);
+    }
+    m2New.push(temp);
+  }
+
+  const newM = [];
+  for (let x = 0; x < m1.length; x += 1) {
+    const temparr = [];
+    for (let j = 0; j < m2New.length; j += 1) {
+      let q = 0;
+      for (let i = 0; i < m1[0].length; i += 1) {
+        q += m1[x][i] * m2New[j][i];
+      }
+      temparr.push(q);
+    }
+    newM.push(temparr);
+  }
+  return newM;
 }
 
 
@@ -496,8 +534,29 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  function callback(el) {
+    if (el.length === 1) {
+      el.push(undefined);
+      el.push(undefined);
+    } else if (el.length === 2) {
+      el.push(undefined);
+    }
+  }
+  position.map((el) => callback(el));
+  const flatArr = position[0].concat(position[1], position[2]);
+  const positions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7],
+    [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+  let result;
+  for (let x = 0; x < positions.length; x += 1) {
+    if (flatArr[positions[x][0]] === flatArr[positions[x][1]]
+      && flatArr[positions[x][1]] === flatArr[positions[x][2]]
+      && flatArr[positions[x][0]] !== undefined) {
+      result = flatArr[positions[x][0]];
+      break;
+    }
+  }
+  return result;
 }
 
 
